@@ -1,0 +1,12 @@
+{
+    "private": true,
+    "name": "@types/muse",
+    "version": "0.0.1",
+    "devDependencies": {
+        "@types/amx-muse": "workspace:."
+    },
+    "owners": {
+        "name": "Damien Butt",
+        "githubUsername": "damienbutt"
+    }
+}
