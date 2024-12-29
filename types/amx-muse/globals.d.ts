@@ -52,6 +52,9 @@ declare global {
             ids(): Array<string>;
         }
 
+        /**
+         * Available log levels
+         */
         type LogLevel = "TRACE" | "DEBUG" | "INFO" | "WARNING" | "ERROR";
 
         type LogFunction = (msg: any) => void;
@@ -448,6 +451,9 @@ declare global {
 
         /**
          * The *NetLinxClient* service provides a mechanism for scripting language to communicate with a legacy NX controller.
+         *
+         * @deprecated Support for the netlinxClient service has been deprecated and replaced by the Netlinx Driver. It may be removed in the future.
+         * @alias LegacyNetLinxClientService Use the *LegacyNetLinxClientService* alias to access the NetLinxClientService without deprecation warnings
          */
         interface NetLinxClientService {
             /**
@@ -548,6 +554,11 @@ declare global {
              */
             send_string(data: string): void;
         }
+
+        /**
+         * The *LegacyNetLinxClient* service provides a mechanism for scripting language to communicate with a legacy NX controller.
+         */
+        type LegacyNetLinxClientService = NetLinxClientService;
 
         /**
          * The *Session* service provides a mechanism for authenticating users  from within a script.
