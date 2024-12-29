@@ -151,7 +151,7 @@ declare global {
          * Any callback or lambda functions for a .listen passed the event structure.
          * This contains the specific information that triggered the event.
          */
-        interface Event<T = any> {
+        interface Event<T = DataEvent> {
             /**
              * The property of the device that this event refers to
              */
@@ -165,7 +165,7 @@ declare global {
             /**
              * The data payload of the event, dependent on the specific event
              */
-            arguments: object;
+            arguments: T;
 
             /**
              * The data value before the event was processed
@@ -176,6 +176,13 @@ declare global {
              * The object reference for the specific parameter that was updated
              */
             source: string;
+        }
+
+        /**
+         * The default event type for all events
+         */
+        interface DataEvent {
+            data: string;
         }
 
         /**
@@ -270,8 +277,7 @@ declare global {
             };
         }
 
-        interface TimelineEvent extends Event {
-            arguments: {
+        interface TimelineEvent {
                 /**
                  * The sequence number of the event
                  */
@@ -286,10 +292,9 @@ declare global {
                  * The number of times the event has been triggered
                  */
                 repetition: number;
-            };
         }
 
-        type TimelineEventCallback = (event?: TimelineEvent) => void;
+        type TimelineEventCallback = (event?: Event<TimelineEvent>) => void;
 
         namespace Program {
             /**
@@ -445,17 +450,60 @@ declare global {
          * The *NetLinxClient* service provides a mechanism for scripting language to communicate with a legacy NX controller.
          */
         interface NetLinxClientService {
+            /**
+             * Receive online events from the NetLinx client
+             */
             online: {
-                listen(callback: () => void): void;
+                /**
+                 * Listen for online events from the NetLinx client
+                 *
+                 * @param {Function} callback The function that will be called when the device comes online
+                 *
+                 * @returns {void} void
+                 */
+                listen(callback: (event?: any) => void): void;
             };
+
+            /**
+             * Receive offline events from the NetLinx client
+             */
             offline: {
-                listen(callback: () => void): void;
+                /**
+                 * Listen for offline events from the NetLinx client
+                 *
+                 * @param {Function} callback The function that will be called when the device goes offline
+                 *
+                 * @returns {void} void
+                 */
+                listen(callback: (event?: any) => void): void;
             };
+
+            /**
+             * Receive string events from the NetLinx client
+             */
             string: {
-                listen(callback: () => void): void;
+                /**
+                 * Listen for string events from the NetLinx client
+                 *
+                 * @param {Function} callback The function that will be called when a string is received
+                 *
+                 * @returns {void} void
+                 */
+                listen(callback: (event?: Event) => void): void;
             };
+
+            /**
+             * Receive command events from the NetLinx client
+             */
             command: {
-                listen(callback: () => void): void;
+                /**
+                 * Listen for command events from the NetLinx client
+                 *
+                 * @param {Function} callback The function that will be called when a command is received
+                 *
+                 * @returns {void} void
+                 */
+                listen(callback: (event?: Event) => void): void;
             };
 
             /**
@@ -659,11 +707,7 @@ declare global {
                 version: Readonly<string>;
             }
 
-            interface Event {
-                data: string;
-            }
-
-            interface CustomEvent extends Event {
+            interface CustomEvent extends DataEvent {
                 encode: string;
                 flag: number;
                 value1: number;
@@ -673,7 +717,7 @@ declare global {
                 type: number;
             }
 
-            type EventCallback = (event?: Event) => void;
+            type EventCallback = (event?: DataEvent) => void;
             type CustomEventCallback = (event?: CustomEvent) => void;
             type ParameterUpdateCallback<T = any> = (
                 event?: ParameterUpdate<T>,
