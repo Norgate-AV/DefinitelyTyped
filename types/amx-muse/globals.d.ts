@@ -285,6 +285,7 @@ declare global {
                  * @returns {void} void
                  */
                 listen(callback: TimelineEventCallback): void;
+                // unlisten(listener: any): void;
             };
         }
 
@@ -476,6 +477,7 @@ declare global {
                  * @returns {void} void
                  */
                 listen(callback: (event?: any) => void): void;
+                // unlisten(listener: any): void;
             };
 
             /**
@@ -490,6 +492,7 @@ declare global {
                  * @returns {void} void
                  */
                 listen(callback: (event?: any) => void): void;
+                // unlisten(listener: any): void;
             };
 
             /**
@@ -504,6 +507,7 @@ declare global {
                  * @returns {void} void
                  */
                 listen(callback: (event?: Event) => void): void;
+                // unlisten(listener: any): void;
             };
 
             /**
@@ -518,6 +522,7 @@ declare global {
                  * @returns {void} void
                  */
                 listen(callback: (event?: Event) => void): void;
+                // unlisten(listener: any): void;
             };
 
             /**
@@ -586,6 +591,7 @@ declare global {
                  * @returns {void} void
                  */
                 listen(callback: (event?: Event<SessionLoginEvent>) => void): void;
+                // unlisten(listener: any): void;
             };
 
             /**
@@ -600,6 +606,7 @@ declare global {
                  * @returns {void} void
                  */
                 listen(callback: (event?: Event<SessionLogoutEvent>) => void): void;
+                // unlisten(listener: any): void;
             };
 
             /**
@@ -890,14 +897,17 @@ declare global {
 
             interface Button {
                 watch(callback: ParameterUpdateCallback<boolean>): void;
+                // unwatch(watcher: any): void;
             }
 
             interface Channel {
                 watch(callback: ParameterUpdateCallback<boolean>): void;
+                // unwatch(watcher: any): void;
             }
 
             interface Level {
                 watch(callback: ParameterUpdateCallback<number>): void;
+                // unwatch(watcher: any): void;
             }
         }
 
@@ -1058,6 +1068,7 @@ declare global {
                      * @returns {void} void
                      */
                     listen(callback: SerialEventCallback): void;
+                    // unlisten(listener: any): void;
                 }
             }
 
@@ -1067,6 +1078,7 @@ declare global {
                 state: boolean & {
                     value: boolean;
                     watch(callback: RelayEventCallback): void;
+                    // unwatch(watcher: any): void;
                 }
             }
 
@@ -1087,10 +1099,12 @@ declare global {
                 digitalOutput: boolean & {
                     value: boolean
                     watch(callback: DigitalEventCallback): void;
+                    // unwatch(watcher: any): void;
                 }
                 digitalInput: boolean & {
                     value: boolean
                     watch(callback: DigitalEventCallback): void;
+                    // unwatch(watcher: any): void;
                 }
             }
         }
