@@ -1,12 +1,23 @@
 {
     "private": true,
-    "name": "@types/muse",
-    "version": "0.0.1",
+    "name": "@types/amx-muse",
+    "version": "0.1.0",
+    "projects": [
+        "https://www.amx.com/en/product_families/muse-controllers"
+    ],
+    "keywords": [
+        "amx",
+        "harman",
+        "muse"
+    ],
+    "types": "index",
     "devDependencies": {
         "@types/amx-muse": "workspace:."
     },
-    "owners": {
-        "name": "Damien Butt",
-        "githubUsername": "damienbutt"
-    }
+    "owners": [
+        {
+            "name": "Damien Butt",
+            "githubUsername": "damienbutt"
+        }
+    ]
 }
