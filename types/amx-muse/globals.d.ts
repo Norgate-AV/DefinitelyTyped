@@ -555,23 +555,50 @@ declare global {
          * Each call into the context's service requests returns the same, single instance of SessionService.
          */
         interface SessionService {
+            /**
+             * After the *login* command, *onLogin* will be dispatched to any listeners
+             */
             onLogin: {
-                listen(callback: (event?: SessionLoginEvent) => void): void;
-            };
-            onLogout: {
-                listen(callback: (event?: SessionLogoutEvent) => void): void;
+                /**
+                 * Listen for login events from the session service
+                 *
+                 * @param {Function} callback The function that will be called when the user logs in
+                 *
+                 * @returns {void} void
+                 */
+                listen(callback: (event?: Event<SessionLoginEvent>) => void): void;
             };
 
             /**
+             * After the *logout* command, *onLogout* will be dispatched to any listeners
+             */
+            onLogout: {
+                /**
+                 * Listen for logout events from the session service
+                 *
+                 * @param {Function} callback The function that will be called when the user logs out
+                 *
+                 * @returns {void} void
+                 */
+                listen(callback: (event?: Event<SessionLogoutEvent>) => void): void;
+            };
+
+            /**
+             * The login command authenticates and logs in a user
              *
-             * @param username
-             * @param password
+             * @param {string} username The username to authenticate with
+             * @param {string} password The password to authenticate with
+             *
+             * @returns {void} void
              */
             login(username: string, password: string): void;
 
             /**
+             * The *logout* command ends the session associated with the provided username
              *
-             * @param username
+             * @param {string} username The username to logout
+             *
+             * @returns {void} void
              */
             logout(username: string): void;
         }
