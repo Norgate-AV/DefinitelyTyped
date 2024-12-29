@@ -278,20 +278,20 @@ declare global {
         }
 
         interface TimelineEvent {
-                /**
-                 * The sequence number of the event
-                 */
-                sequence: number;
+            /**
+             * The sequence number of the event
+             */
+            sequence: number;
 
-                /**
-                 * The time in milliseconds when the event was triggered
-                 */
-                time: number;
+            /**
+             * The time in milliseconds when the event was triggered
+             */
+            time: number;
 
-                /**
-                 * The number of times the event has been triggered
-                 */
-                repetition: number;
+            /**
+             * The number of times the event has been triggered
+             */
+            repetition: number;
         }
 
         type TimelineEventCallback = (event?: Event<TimelineEvent>) => void;
@@ -827,11 +827,118 @@ declare global {
             source: object;
         }
 
+        interface IDevice {
+            serial?: Array<IDevice.SerialPort>;
+            relay?: Array<IDevice.RelayPort>;
+            ir?: Array<IDevice.IRPort>;
+            io?: Array<IDevice.IOPort>;
+        }
+
         namespace IDevice {
-            interface SerialPort {}
-            interface RelayPort {}
-            interface IRPort {}
-            interface IOPort {}
+            type SerialEventCallback = (event?: Event) => void;
+
+            type SerialBaudRate =
+                | "300"
+                | "600"
+                | "1200"
+                | "1800"
+                | "2400"
+                | "4800"
+                | "7200"
+                | "9600"
+                | "14400"
+                | "19200"
+                | "38400"
+                | "56000"
+                | "57600"
+                | "115200";
+
+            type SerialParity = "NONE" | "EVEN" | "ODD" | "MARK" | "SPACE";
+            type SerialDataBits = 5 | 6 | 7 | 8;
+            type SerialStopBits = 1 | 2;
+            type SerialMode = "232" | "485" | "422";
+
+            interface SerialPort {
+                /**
+                 * Set the parameters for the serial port
+                 *
+                 * @param {SerialBaudRate} baud The baud rate of the serial port
+                 * @param {SerialDataBits} [databits = 8] The number of data bits
+                 * @param {SerialStopBits} [stopbits = 1] The number of stop bits
+                 * @param {SerialParity} [parity = "NONE"] The parity of the serial port
+                 * @param {SerialMode} [mode = "232"] The mode of the serial port
+                 *
+                 * @returns {void} void
+                 */
+                setComParams(
+                    baud: SerialBaudRate,
+                    databits?: SerialDataBits,
+                    stopbits?: SerialStopBits,
+                    parity?: SerialParity,
+                    mode?: SerialMode,
+                ): void;
+
+                /**
+                 * Get the serial port parity parameter
+                 */
+                parity: Readonly<Parameter>
+
+                /**
+                 * Send data to the serial port
+                 *
+                 * @param {string} data The data to send
+                 *
+                 * @returns {void} void
+                 */
+                send(data: string): void;
+
+                /**
+                 * Receive data from the serial port
+                 */
+                receive: {
+                    /**
+                     * Listen for data from the serial port
+                     *
+                     * @param {Function} callback The function that will be called when data is received
+                     *
+                     * @returns {void} void
+                     */
+                    listen(callback: SerialEventCallback): void;
+                }
+            }
+
+            type RelayEventCallback = (event?: ParameterUpdate<boolean>) => void;
+
+            interface RelayPort {
+                state: boolean & {
+                    value: boolean;
+                    watch(callback: RelayEventCallback): void;
+                }
+            }
+
+            interface IRPort {
+                /**
+                 * Send an IR code
+                 *
+                 * @param {number} code The IR code to send
+                 *
+                 * @returns {void} void
+                 */
+                clearAndSendIr(code: number): void;
+            }
+
+            type DigitalInputEventCallback = (event?: ParameterUpdate<boolean>) => void;
+
+            interface IOPort {
+                digitalOutput: boolean & {
+                    value: boolean
+                    watch(callback: ParameterUpdate<boolean>): void;
+                }
+                digitalInput: boolean & {
+                    value: boolean
+                    watch(callback: DigitalInputEventCallback): void;
+                }
+            }
         }
 
         namespace LED {}
