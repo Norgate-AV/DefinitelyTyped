@@ -1096,5 +1096,8 @@ declare global {
         }
 
         namespace LED {}
+        namespace NetLinx {
+            interface Driver {}
+        }
     }
 }
