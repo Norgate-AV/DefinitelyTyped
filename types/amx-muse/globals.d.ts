@@ -1081,16 +1081,16 @@ declare global {
                 clearAndSendIr(code: number): void;
             }
 
-            type DigitalInputEventCallback = (event?: ParameterUpdate<boolean>) => void;
+            type DigitalEventCallback = (event?: ParameterUpdate<boolean>) => void;
 
             interface IOPort {
                 digitalOutput: boolean & {
                     value: boolean
-                    watch(callback: ParameterUpdate<boolean>): void;
+                    watch(callback: DigitalEventCallback): void;
                 }
                 digitalInput: boolean & {
                     value: boolean
-                    watch(callback: DigitalInputEventCallback): void;
+                    watch(callback: DigitalEventCallback): void;
                 }
             }
         }
