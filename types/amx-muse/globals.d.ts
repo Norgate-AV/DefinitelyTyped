@@ -185,6 +185,9 @@ declare global {
          * The default event type for all events
          */
         interface DataEvent {
+            /**
+             * The data payload of the event, dependent on the specific event
+             */
             data: string;
         }
 
@@ -270,11 +273,16 @@ declare global {
              */
             restart(): void;
 
+            /**
+             * Receive events from the timeline
+             */
             expired: {
                 /**
-                 * Receive events from the timeline
+                 * Listen for events from the timeline
                  *
                  * @param {Function} callback The function that will be called when the timer expires
+                 *
+                 * @returns {void} void
                  */
                 listen(callback: TimelineEventCallback): void;
             };
@@ -614,16 +622,48 @@ declare global {
             logout(username: string): void;
         }
 
+        /**
+         * Session Logout Event
+         */
         interface SessionLogoutEvent {
+            /**
+             * The username provided in the *logout* command
+             */
             username: string;
         }
 
-        interface SessionLoginEvent extends SessionLogoutEvent {
+        /**
+         * Session Login Event
+         */
+        interface SessionLoginEvent {
+            /**
+             * The username provided in the *login* command
+             */
+            username: string;
+
+            /**
+             * The boolean for the success or failure of the login
+             */
             status: boolean;
+
+            /**
+             * The string success or failure message associated with the login
+             */
             statusMsg: string;
+
+            /**
+             * The dstring format list of permissions associated with the user upon a successful login
+             */
             permissions: string;
         }
 
+        /**
+         * The *SMTP* service provides a mechanism for sending email and attachments. Once configuration values have been set, an email can be sent by passing
+         * the *sendEmail* function an email address & name, and optional parameters.
+         *
+         * The *SMTP* service supports three commands to construct and send an email. All arguments are initially declared as strings, and all fields including
+         * optional must be filled. An optional field filled with "" will be ignored, but is required to function.
+         */
         interface SmtpService {
             /**
              * Set the configuration for the SMTP service
@@ -682,9 +722,22 @@ declare global {
             ): void;
         }
 
+        /**
+         * The *ICSP* namespace provides a mechanism for communicating with ICSP devices.
+         */
         namespace ICSP {
+            /**
+             * The main interface for the ICSP driver
+             */
             interface Driver {
+                /**
+                 * The configuration of the ICSP device
+                 */
                 configuration: Configuration;
+
+                /**
+                 * An array of ICSP device ports
+                 */
                 port: Array<Port>;
 
                 /**
@@ -727,21 +780,84 @@ declare global {
             }
 
             interface Device {
+                /**
+                 * The Java class name of the device
+                 */
                 classname: Readonly<string>;
+
+                /**
+                 * The container of the device
+                 */
                 container: Readonly<string>;
+
+                /**
+                 * The description of the device
+                 */
                 description: Readonly<string>;
+
+                /**
+                 * The descriptor location of the device
+                 */
                 descriptorlocation: Readonly<string>;
+
+                /**
+                 * The current device state
+                 */
                 devicestate: Readonly<string>;
+
+                /**
+                 * The family of the device
+                 */
                 family: Readonly<string>;
+
+                /**
+                 * The guid of the device
+                 */
                 guid: Readonly<string>;
+
+                /**
+                 * The label of the device
+                 */
                 location: Readonly<string>;
+
+                /**
+                 * The manufacturer of the device
+                 */
                 manufacturer: Readonly<string>;
+
+                /**
+                 * The model of the device
+                 */
                 model: Readonly<string>;
+
+                /**
+                 * The name of the device
+                 */
                 name: Readonly<string>;
+
+                /**
+                 * The platform of the device
+                 */
                 protocolversion: Readonly<string>;
+
+                /**
+                 * The serial number of the device
+                 */
                 serialnumber: Readonly<string>;
+
+                /**
+                 * The software version of the device
+                 */
                 softwareversion: Readonly<string>;
+
+                /**
+                 * The venue of the device
+                 */
                 venue: Readonly<string>;
+
+                /**
+                 * The version of the device
+                 */
                 version: Readonly<string>;
             }
 
