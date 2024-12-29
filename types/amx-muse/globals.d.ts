@@ -122,6 +122,22 @@ declare global {
              * @returns {T} The service object
              */
             get<T = any>(name: string): T;
+
+            /**
+             * Check if a service is available
+             *
+             * @param {string} name The name of the service
+             *
+             * @returns {boolean} true if the service is available, false otherwise
+             */
+            // has(name: string): boolean;
+
+            /**
+             * Get the list of available services
+             *
+             * @returns {Array<string>} An array of service names
+             */
+            // ids(): Array<string>;
         }
 
         interface Export {
@@ -456,7 +472,12 @@ declare global {
             label: Readonly<string>;
         }
 
-        interface DiagnosticService {}
+        interface DiagnosticService {
+            // cpuInfo: Readonly<string>;
+            // garbageCollection: Readonly<string>;
+            // heapUsage: Readonly<string>;
+            // osMemory: Readonly<string>;
+        }
 
         /**
          * The *NetLinxClient* service provides a mechanism for scripting language to communicate with a legacy NX controller.
@@ -727,6 +748,10 @@ declare global {
                 attachment?: string,
                 fileName?: string,
             ): void;
+
+            // echoOn(): void;
+            // echo(): void;
+            // hello(): void;
         }
 
         /**
