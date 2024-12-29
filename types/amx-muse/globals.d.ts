@@ -1134,6 +1134,16 @@ declare global {
             }
         }
 
+        // interface Watcher<T = any, U = void> {
+        //     watch(callback: T): U;
+        //     unwatch(watcher: U): void;
+        // }
+
+        // interface Listener<T = any, U = void> {
+        //     listen(callback: T): U;
+        //     unlisten(listener: U): void;
+        // }
+
         namespace LED {}
         namespace NetLinx {
             interface Driver {}
