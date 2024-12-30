@@ -298,12 +298,23 @@ declare global {
                  *
                  * @param {Function} callback The function that will be called when the timer expires
                  *
+                 * @returns {Listener} A listener object that can be used to unlisten
+                 */
+                listen(callback: TimelineEventCallback): Listener;
+
+                /**
+                 * Stop listening for events from the timeline
+                 *
+                 * @param {Listener} listener The listener object returned from the listen function
+                 *
                  * @returns {void} void
                  */
-                listen(callback: TimelineEventCallback): void;
-                // unlisten(listener: any): void;
+                unlisten(listener: Listener): void;
             };
         }
+
+        type Listener = () => void;
+        type Watcher = () => void;
 
         interface TimelineEvent {
             /**
@@ -473,10 +484,25 @@ declare global {
         }
 
         interface DiagnosticService {
-            // cpuInfo: Readonly<string>;
-            // garbageCollection: Readonly<string>;
-            // heapUsage: Readonly<string>;
-            // osMemory: Readonly<string>;
+            /**
+             * A string containing the CPU information
+             */
+            cpu_info: Readonly<string>;
+
+            /**
+             * A string containing the garbage collection information
+             */
+            garbage_collection: Readonly<string>;
+
+            /**
+             * A string containing the heap usage information
+             */
+            heap_usage: Readonly<string>;
+
+            /**
+             * A string containing the memory information
+             */
+            os_memory: Readonly<string>;
         }
 
         /**
@@ -495,10 +521,18 @@ declare global {
                  *
                  * @param {Function} callback The function that will be called when the device comes online
                  *
+                 * @returns {Listener} A listener object that can be used to unlisten
+                 */
+                listen(callback: (event?: any) => void): Listener;
+
+                /**
+                 * Stop listening for online events from the NetLinx client
+                 *
+                 * @param {Listener} listener The listener object returned from the listen function
+                 *
                  * @returns {void} void
                  */
-                listen(callback: (event?: any) => void): void;
-                // unlisten(listener: any): void;
+                unlisten(listener: Listener): void;
             };
 
             /**
@@ -510,10 +544,18 @@ declare global {
                  *
                  * @param {Function} callback The function that will be called when the device goes offline
                  *
+                 * @returns {Listener} A listener object that can be used to unlisten
+                 */
+                listen(callback: (event?: any) => void): Listener;
+
+                /**
+                 * Stop listening for offline events from the NetLinx client
+                 *
+                 * @param {Listener} listener The listener object returned from the listen function
+                 *
                  * @returns {void} void
                  */
-                listen(callback: (event?: any) => void): void;
-                // unlisten(listener: any): void;
+                unlisten(listener: Listener): void;
             };
 
             /**
@@ -525,10 +567,18 @@ declare global {
                  *
                  * @param {Function} callback The function that will be called when a string is received
                  *
+                 * @returns {Listener} A listener object that can be used to unlisten
+                 */
+                listen(callback: (event?: Event) => void): Listener;
+
+                /**
+                 * Stop listening for string events from the NetLinx client
+                 *
+                 * @param {Listener} listener The listener object returned from the listen function
+                 *
                  * @returns {void} void
                  */
-                listen(callback: (event?: Event) => void): void;
-                // unlisten(listener: any): void;
+                unlisten(listener: Listener): void;
             };
 
             /**
@@ -540,10 +590,18 @@ declare global {
                  *
                  * @param {Function} callback The function that will be called when a command is received
                  *
+                 * @returns {Listener} A listener object that can be used to unlisten
+                 */
+                listen(callback: (event?: Event) => void): Listener;
+
+                /**
+                 * Stop listening for command events from the NetLinx client
+                 *
+                 * @param {Listener} listener The listener object returned from the listen function
+                 *
                  * @returns {void} void
                  */
-                listen(callback: (event?: Event) => void): void;
-                // unlisten(listener: any): void;
+                unlisten(listener: Listener): void;
             };
 
             /**
@@ -609,10 +667,18 @@ declare global {
                  *
                  * @param {Function} callback The function that will be called when the user logs in
                  *
+                 * @returns {Listener} A listener object that can be used to unlisten
+                 */
+                listen(callback: (event?: Event<SessionLoginEvent>) => void): Listener;
+
+                /**
+                 * Stop listening for login events from the session service
+                 *
+                 * @param {Listener} listener The listener object returned from the listen function
+                 *
                  * @returns {void} void
                  */
-                listen(callback: (event?: Event<SessionLoginEvent>) => void): void;
-                // unlisten(listener: any): void;
+                unlisten(listener: Listener): void;
             };
 
             /**
@@ -624,10 +690,18 @@ declare global {
                  *
                  * @param {Function} callback The function that will be called when the user logs out
                  *
+                 * @returns {Listener} A listener object that can be used to unlisten
+                 */
+                listen(callback: (event?: Event<SessionLogoutEvent>) => void): Listener;
+
+                /**
+                 * Stop listening for logout events from the session service
+                 *
+                 * @param {Listener} listener The listener object returned from the listen function
+                 *
                  * @returns {void} void
                  */
-                listen(callback: (event?: Event<SessionLogoutEvent>) => void): void;
-                // unlisten(listener: any): void;
+                unlisten(listener: Listener): void;
             };
 
             /**
@@ -775,7 +849,7 @@ declare global {
                 /**
                  * Receive online events from the ICSP driver
                  *
-                 * @param {Function} callback The function that will be called when the device comes online
+                 * @param {OnlineOfflineCallback} callback The function that will be called when the device comes online
                  *
                  * @returns {void} void
                  */
@@ -784,7 +858,7 @@ declare global {
                 /**
                  * Receive offline events from the ICSP driver
                  *
-                 * @param {Function} callback The function that will be called when the device goes offline
+                 * @param {OnlineOfflineCallback} callback The function that will be called when the device goes offline
                  *
                  * @returns {void} void
                  */
@@ -910,29 +984,101 @@ declare global {
             ) => void;
 
             interface Port {
+                /**
+                 * Array of button objects
+                 */
                 button: Array<Readonly<Button>>;
+
+                /**
+                 * Array of channel objects
+                 */
                 channel: Array<boolean & Channel>;
+
                 command(callback: EventCallback): void;
                 custom(callback: CustomEventCallback): void;
+
+                /**
+                 * Array of level objects
+                 */
                 level: Array<number & Level>;
+
+                /**
+                 * Sends a command to the device
+                 *
+                 * @param {string} data The command to send
+                 *
+                 * @returns {void} void
+                 */
                 send_command(data: string): void;
+
+                /**
+                 * Sends a string to the device
+                 *
+                 * @param {string} data The string to send
+                 *
+                 * @returns {void} void
+                 */
                 send_string(data: string): void;
+
                 string(callback: EventCallback): void;
             }
 
             interface Button {
-                watch(callback: ParameterUpdateCallback<boolean>): void;
-                // unwatch(watcher: any): void;
+                /**
+                 * Watch for button parameter events
+                 *
+                 * @param {ParameterUpdateCallback<boolean>} callback The function that will be called when the button parameter changes
+                 *
+                * @returns {Watcher} A watcher object that can be used to unwatch
+                 */
+                watch(callback: ParameterUpdateCallback<boolean>): Watcher;
+
+                /**
+                 * Stop watching for button parameter events
+                 *
+                 * @param {Watcher} watcher The watcher object returned from the watch function
+                 *
+                 * @returns {void} void
+                 */
+                unwatch(watcher: Watcher): void;
             }
 
             interface Channel {
-                watch(callback: ParameterUpdateCallback<boolean>): void;
-                // unwatch(watcher: any): void;
+                /**
+                 * Watch for channel parameter events
+                 *
+                 * @param {ParameterUpdateCallback<boolean>} callback The function that will be called when the channel parameter changes
+                 */
+                watch(callback: ParameterUpdateCallback<boolean>): Watcher;
+
+                /**
+                 * Stop watching for channel parameter events
+                 *
+                 * @param {Watcher} watcher The watcher object returned from the watch function
+                 *
+                 * @returns {void} void
+                 */
+                unwatch(watcher: Watcher): void;
             }
 
             interface Level {
-                watch(callback: ParameterUpdateCallback<number>): void;
-                // unwatch(watcher: any): void;
+                /**
+                 * Watch for level parameter events
+                 *
+                 * @param {ParameterUpdateCallback<number>} callback The function that will be called when the level parameter changes
+                 *
+                 * @returns {Watcher} A watcher object that can be used to unwatch
+                 */
+                watch(callback: ParameterUpdateCallback<number>): Watcher;
+
+                /**
+                 * Stop watching for level parameter events
+                 *
+                 * @param {Watcher} watcher The watcher object returned from the watch function
+                 *
+                 * @returns {void} void
+                 */
+                unwatch(watcher: Watcher): void;
             }
         }
 
@@ -1088,22 +1234,52 @@ declare global {
                     /**
                      * Listen for data from the serial port
                      *
-                     * @param {Function} callback The function that will be called when data is received
+                     * @param {SerialEventCallback} callback The function that will be called when data is received
+                     *
+                     * @returns {Listener} A listener object that can be used to unlisten
+                     */
+                    listen(callback: SerialEventCallback): Listener;
+
+                    /**
+                     * Stop listening for data from the serial port
+                     *
+                     * @param {Listener} listener The listener object returned from the listen function
                      *
                      * @returns {void} void
                      */
-                    listen(callback: SerialEventCallback): void;
-                    // unlisten(listener: any): void;
+                    unlisten(listener: Listener): void;
                 }
             }
 
             type RelayEventCallback = (event?: ParameterUpdate<boolean>) => void;
 
             interface RelayPort {
+                /**
+                 * The relay parameter
+                 */
                 state: boolean & {
+                    /**
+                     * The current value of the relay parameter
+                     */
                     value: boolean;
-                    watch(callback: RelayEventCallback): void;
-                    // unwatch(watcher: any): void;
+
+                    /**
+                     * Watch for relay parameter events
+                     *
+                     * @param {RelayEventCallback} callback The function that will be called when the relay parameter changes
+                     *
+                     * @returns {Watcher} A watcher object that can be used to unwatch
+                     */
+                    watch(callback: RelayEventCallback): Watcher;
+
+                    /**
+                     * Stop watching for relay parameter events
+                     *
+                     * @param {Watcher} watcher The watcher object returned from the watch function
+                     *
+                     * @returns {void} void
+                     */
+                    unwatch(watcher: Watcher): void;
                 }
             }
 
@@ -1121,28 +1297,63 @@ declare global {
             type DigitalEventCallback = (event?: ParameterUpdate<boolean>) => void;
 
             interface IOPort {
+                /**
+                 * The digital output parameter
+                 */
                 digitalOutput: boolean & {
+                    /**
+                     * The current value of the digital output parameter
+                     */
                     value: boolean
-                    watch(callback: DigitalEventCallback): void;
-                    // unwatch(watcher: any): void;
+
+                    /**
+                     * Watch for digital output parameter events
+                     *
+                     * @param {DigitalEventCallback} callback The function that will be called when the digital output parameter changes
+                     *
+                     * @returns {Watcher} A watcher object that can be used to unwatch
+                     */
+                    watch(callback: DigitalEventCallback): Watcher;
+
+                    /**
+                     * Stop watching for digital output parameter events
+                     *
+                     * @param {Watcher} watcher The watcher object returned from the watch function
+                     *
+                     * @returns {void} void
+                     */
+                    unwatch(watcher: Watcher): void;
                 }
+
+                /**
+                 * The digital input parameter
+                 */
                 digitalInput: boolean & {
+                    /**
+                     * The current value of the digital input parameter
+                     */
                     value: boolean
-                    watch(callback: DigitalEventCallback): void;
-                    // unwatch(watcher: any): void;
+
+                    /**
+                     * Watch for digital input parameter events
+                     *
+                     * @param {DigitalEventCallback} callback The function that will be called when the digital input parameter changes
+                     *
+                     * @returns {Watcher} A watcher object that can be used to unwatch
+                     */
+                    watch(callback: DigitalEventCallback): Watcher;
+
+                    /**
+                     * Stop watching for digital input parameter events
+                     *
+                     * @param {Watcher} watcher The watcher object returned from the watch function
+                     *
+                     * @returns {void} void
+                     */
+                    unwatch(watcher: Watcher): void;
                 }
             }
         }
-
-        // interface Watcher<T = any, U = void> {
-        //     watch(callback: T): U;
-        //     unwatch(watcher: U): void;
-        // }
-
-        // interface Listener<T = any, U = void> {
-        //     listen(callback: T): U;
-        //     unlisten(listener: U): void;
-        // }
 
         namespace LED {}
         namespace NetLinx {
