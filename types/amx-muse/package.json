@@ -1,16 +1,12 @@
 {
     "private": true,
     "name": "@types/amx-muse",
-    "version": "0.1.0",
+    "version": "0.1.9999",
+    "nonNpm": true,
+    "nonNpmDescription": "Type definitions for AMX Muse Controllers",
     "projects": [
         "https://www.amx.com/en/product_families/muse-controllers"
     ],
-    "keywords": [
-        "amx",
-        "harman",
-        "muse"
-    ],
-    "types": "index",
     "devDependencies": {
         "@types/amx-muse": "workspace:."
     },

@@ -1,12 +1,16 @@
 {
+    "files": [
+        "index.d.ts"
+    ],
     "compilerOptions": {
         "module": "commonjs",
         "target": "es5",
+        "lib": ["es5"],
         "noImplicitAny": true,
         "noImplicitThis": true,
         "strictNullChecks": true,
         "strictFunctionTypes": true,
-        "types": ["."],
+        "types": [],
         "noEmit": true,
         "forceConsistentCasingInFileNames": true
     }
