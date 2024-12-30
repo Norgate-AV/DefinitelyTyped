@@ -542,6 +542,8 @@ declare global {
          *
          * @deprecated Support for the netlinxClient service has been deprecated and replaced by the Netlinx Driver. It may be removed in the future.
          * @alias LegacyNetLinxClientService Use the *LegacyNetLinxClientService* alias to access the NetLinxClientService without deprecation warnings
+         *
+         * Use the *Muse.NetLinx.Driver* API instead
          */
         interface NetLinxClientService {
             /**
@@ -1114,6 +1116,10 @@ declare global {
             }
         }
 
+        namespace HControl {
+            interface Driver {}
+        }
+
         interface Parameter<T = any> {
             /**
              * The new value which caused the parameter change callback
@@ -1390,8 +1396,20 @@ declare global {
         interface LED {}
         namespace LED {}
 
+        // Effectively just an ICSP device
         namespace NetLinx {
-            interface Driver {}
+            type Driver = ICSP.Driver;
+            type OnlineOfflineCallback = ICSP.OnlineOfflineCallback;
+            type Configuration = ICSP.Configuration;
+            type Device = ICSP.Device;
+            type CustomEvent = ICSP.CustomEvent;
+            type EventCallback = ICSP.EventCallback;
+            type CustomEventCallback = ICSP.CustomEventCallback;
+            type ParameterUpdateCallback = ICSP.ParameterUpdateCallback;
+            type Port = ICSP.Port;
+            type Button = ICSP.Button;
+            type Channel = ICSP.Channel;
+            type Level = ICSP.Level;
         }
     }
 }
