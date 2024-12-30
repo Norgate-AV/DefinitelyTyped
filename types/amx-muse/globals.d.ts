@@ -23,7 +23,19 @@ declare global {
             export: Export;
         }
 
+        type DeviceType<T> =
+            T extends `AMX-${number}` ? ICSP.Driver :
+            never;
+
         interface Devices {
+            /**
+             * Get a specific device by its name
+             *
+             * @param {T} name The ID of the device
+             *
+             * @returns {DeviceType<T>} The device object
+             */
+            get<T extends string>(name: T): DeviceType<T>;
             /**
              * Get a specific device by its name
              *
@@ -111,7 +123,25 @@ declare global {
             error(msg: any): void;
         }
 
+        interface ServiceType {
+            timeline: TimelineService;
+            platform: PlatformService;
+            diagnostic: DiagnosticService;
+            netlinxClient: LegacyNetLinxClientService;
+            session: SessionService;
+            smtp: SmtpService;
+        }
+
         interface Services {
+            /**
+             * Get a service by name
+             *
+             * @param {keyof ServiceType} name The name of the service
+             *
+             * @returns {ServiceType[T]} The service object
+             */
+            get<T extends keyof ServiceType>(name: T): ServiceType[T];
+
             /**
              * Get a service by name
              *
@@ -130,14 +160,14 @@ declare global {
              *
              * @returns {boolean} true if the service is available, false otherwise
              */
-            // has(name: string): boolean;
+            has(name: string): boolean;
 
             /**
              * Get the list of available services
              *
              * @returns {Array<string>} An array of service names
              */
-            // ids(): Array<string>;
+            ids(): Array<string>;
         }
 
         interface Export {
