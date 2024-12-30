@@ -25,6 +25,8 @@ declare global {
 
         type DeviceType<T> =
             T extends `AMX-${number}` ? ICSP.Driver :
+            T extends `idevice` ? IDevice :
+            T extends `led` ? LED :
             never;
 
         interface Devices {
@@ -1385,7 +1387,9 @@ declare global {
             }
         }
 
+        interface LED {}
         namespace LED {}
+
         namespace NetLinx {
             interface Driver {}
         }
